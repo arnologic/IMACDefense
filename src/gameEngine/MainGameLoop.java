@@ -35,7 +35,7 @@ public class MainGameLoop extends Thread{
     private int width = 1024;
     private int height = 768;
     private GraphicsConfiguration config = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
-     
+    private int frameCount; 
     // Buffer Image
     public final BufferedImage create(final int width, final int height, final boolean alpha) {
     	return config.createCompatibleImage(width, height, alpha ? Transparency.TRANSLUCENT : Transparency.OPAQUE);
@@ -58,12 +58,14 @@ public class MainGameLoop extends Thread{
     	canvas = new Canvas(config);
     	canvas.setSize(width, height);
     	canvas.addMouseListener(new MouseMethods());
+    	canvas.addMouseMotionListener(new MouseMethods());
     	frame.add(canvas, 0);
 
     	// Background & Buffer
     	background = create(width, height, false);
     	canvas.createBufferStrategy(2);
     	
+    	frameCount = 0;
     	do {
     		strategy = canvas.getBufferStrategy();
     	} while (strategy == null);
@@ -117,7 +119,10 @@ public class MainGameLoop extends Thread{
     	main: while (isRunning) {
     		long renderStart = System.nanoTime();
     		updateGame(); // Mise à jour des données logiques
-
+    		updateMove();
+    		if(frameCount == 0){
+    			updateLifeNano();
+    		}
     		// Update Graphics
     		do {
     			Graphics2D bg = getBuffer();
@@ -136,12 +141,23 @@ public class MainGameLoop extends Thread{
     			break;
     		}
     		renderTime = (System.nanoTime() - renderStart) / 1000000;
+    		frameCount++;
+        	if((frameCount == renderTime) || (frameCount == renderTime-1)){frameCount = 0;}
     	}
     	frame.dispose();
     }
 
     public void updateGame() {}
-
+    public void updateMove(){
+    	for(BuildingAbstract b : GameData.baseArray){
+    		b.iterateNano();
+    	}
+    }
+    public void updateLifeNano(){
+    	for(BuildingAbstract b : GameData.baseArray){
+    		b.minusLifeNano(1);
+    	}
+    }
     /*
      * Appel pour dessiner
      */
@@ -149,8 +165,9 @@ public class MainGameLoop extends Thread{
 		backgroundGame.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // Antialiasing
 		bg.drawImage(background, 0, 0, null); // Ouvre le buffer pour l'image
     	drawBackground();
-    	drawSelectLine();
     	drawBuilding();
+    	drawSelectLine();
+
 		bg.dispose(); // utilise le buffer
     }
     
@@ -161,13 +178,18 @@ public class MainGameLoop extends Thread{
     	for(int i = 0; i<5; i++){
     		GameData.lineSelect.add(0);
     	}
-    	int inc = 0; // Pour l'ID de la base
-    	for(int i = 0; i<3; i++){	
-    		for (int j = 0; j<2; j++){
+    	//int inc = 0; // Pour l'ID de la base
+    	/*for(int i = 0; i<3; i++){	
+    		for (int j = 0; j<1; j++){
 	    		Base baseJ = new Base(random, 90, inc, i);
 	    		GameData.baseArray.add(baseJ);
 	    		++inc;
     		}
+    	}*/
+    	GameData.baseArray.add(new Base(50, 50, 90, 0, 1));
+    	GameData.baseArray.add(new Base(900, 600, 90, 0, 2));
+    	for(int i = 0; i<3; i++){	
+	    		GameData.baseArray.add(new Base(random, 30, 0, 0));
     	}
     }
     
@@ -187,6 +209,7 @@ public class MainGameLoop extends Thread{
     public void drawBuilding(){   	    	
     	for(BuildingAbstract b : GameData.baseArray){
     		b.paintBase(backgroundGame);
+    		b.paintNano(backgroundGame);
     	}
     }
 

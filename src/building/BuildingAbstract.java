@@ -2,6 +2,8 @@ package building;
 
 import java.awt.Graphics2D;
 
+import javax.swing.JFrame;
+
 public abstract class BuildingAbstract {
 	private int lifePoint;
 	private int bullets;
@@ -61,5 +63,45 @@ public abstract class BuildingAbstract {
 	}
 	public void setType(int type) {
 		this.type = type;
+	}
+	public void setNanoArray(Nano nano) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void displayNanoArray() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void paint() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void paintNano(Graphics2D backgroundGame) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void iterateNano() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void Moving() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void paintBase(Graphics2D backgroundGame, JFrame frame) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void minusLifeNano(int i) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void attackLifePoint(int i) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void minusLifeBase(int i) {
+		// TODO Auto-generated method stub
+		
 	}
 }

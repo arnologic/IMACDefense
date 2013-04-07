@@ -1,8 +1,10 @@
 package building;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 import java.util.Random;
 
 import simpleShape.Circle;
@@ -16,6 +18,7 @@ public class Base extends BuildingAbstract {
 	private int ID;
 	private int type; // O = neutre, 1 = joueur, 2 = méchant
 	private static int number = 0;
+	private ArrayList<BuildingAbstract> nanoArray = new ArrayList<BuildingAbstract>();
 	
 	public Base(Random random, int s, int id, int t){
 		lifePoint = 10;
@@ -23,6 +26,16 @@ public class Base extends BuildingAbstract {
 		size = s;
 		positionX = showRandomInteger(0+100, 1024-100, random);
 		positionY = showRandomInteger(0+100, 768-100, random);
+		ID = id;
+		type = t;
+		setNumber(getNumber() + 1);
+	}	
+	public Base(int x, int y, int s, int id, int t){
+		lifePoint = 10;
+		bullets = 5;
+		size = s;
+		positionX = x;
+		positionY = y;
 		ID = id;
 		type = t;
 		setNumber(getNumber() + 1);
@@ -46,6 +59,30 @@ public class Base extends BuildingAbstract {
 		setNumber(getNumber() + 1);
 	}  
 	
+	public void paintNano(Graphics2D g){
+		//System.out.println("OK");
+		//System.out.println(nanoArray.toString());
+		for(BuildingAbstract n : nanoArray){
+			//System.out.println("OK");
+			//System.out.println(nanoArray.toString());
+			n.paintNano(g);
+		}
+	}
+	public void attackLifePoint(int number){
+		lifePoint-= number;
+		if(lifePoint <= 0){
+			type = 1;
+			lifePoint = number/2;
+		}
+	}
+    public void minusLifeNano(int number){
+		for(BuildingAbstract n : nanoArray){
+			n.minusLifeNano(1);
+		}
+    }
+    public void minusLifeBase(int number){
+    	lifePoint = number;
+    }
     public void paintBase(Graphics2D g){
     	Color color = Color.WHITE;
     	if(getType() == 0){
@@ -63,10 +100,15 @@ public class Base extends BuildingAbstract {
 		// Construction des formes
 		Circle baseCircle = new Circle(getSize()+6, getSize()+6, getPositionX()-3, getPositionY()-3, Color.WHITE);
 		Circle upCircle = new Circle(getSize(), getSize(), getPositionX(), getPositionY(), gradient);
-		
+				
 		// binding des formes dans le buffer
 		baseCircle.drawCircle(g);
 		upCircle.drawCircle(g);
+		
+		// Police
+		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+		g.setColor(Color.BLACK);
+		g.drawString(String.valueOf(lifePoint), getPositionX()+(getSize()/2)-12, getPositionY()+(getSize()/2)+5);
     }
     
     public int showRandomInteger(int aStart, int aEnd, Random aRandom){
@@ -80,7 +122,12 @@ public class Base extends BuildingAbstract {
         return (int)(fraction + aStart);    
      }
     
-    
+	public void iterateNano(){
+		for(BuildingAbstract n : nanoArray){
+			n.Moving();
+		}
+	}
+	
     @Override
 	public String toString() {
 		return "Base [lifePoint=" + lifePoint + ", bullets=" + bullets
@@ -129,5 +176,16 @@ public class Base extends BuildingAbstract {
 	}
 	public void setType(int type) {
 		this.type = type;
+	}
+	public void setSize(int s){
+		this.size = s;
+	}
+	public void setNanoArray(Nano nano) {
+		nanoArray.add(nano);
+	}
+	public void displayNanoArray() {
+		for(BuildingAbstract n : nanoArray){
+			System.out.println(n.toString());
+		}
 	}
 }
