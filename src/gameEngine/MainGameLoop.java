@@ -36,6 +36,7 @@ public class MainGameLoop extends Thread{
     private int height = 768;
     private GraphicsConfiguration config = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
     private int frameCount; 
+    private boolean frameLag = false;
     // Buffer Image
     public final BufferedImage create(final int width, final int height, final boolean alpha) {
     	return config.createCompatibleImage(width, height, alpha ? Transparency.TRANSLUCENT : Transparency.OPAQUE);
@@ -121,8 +122,13 @@ public class MainGameLoop extends Thread{
     		updateGame(); // Mise à jour des données logiques
     		updateMove();
     		if(frameCount == 0){
-    			updateLifeNano();
-    			updateLifeBase();
+    			if(frameLag == true){
+    				updateLifeNano();
+    				frameLag = false;
+    			}else{
+	    			updateLifeBase();
+	    			frameLag = true;
+    			}
     		}
     		// Update Graphics
     		do {
