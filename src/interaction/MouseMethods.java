@@ -44,6 +44,7 @@ public class MouseMethods implements MouseListener, MouseMotionListener {
 					GameData.lineSelect.set(2, b.getPositionX()+(b.getSize()/2));
 					GameData.lineSelect.set(3, b.getPositionY()+(b.getSize()/2));
 					GameData.lineSelect.set(4, 1);
+					GameData.bDepart = b;
 				}else if(GameData.lineSelect.get(4) == 1){
 					GameData.lineSelect.set(2, b.getPositionX()+(b.getSize()/2));
 					GameData.lineSelect.set(3, b.getPositionY()+(b.getSize()/2));
@@ -52,13 +53,16 @@ public class MouseMethods implements MouseListener, MouseMotionListener {
 				    	for(int i = 0; i<5; i++){
 				    		GameData.lineSelect.set(i, 0);
 				    	}
+				    	GameData.bDepart = null;
 					}else{
-						Nano nano = new Nano(50, b.getPositionX()+(b.getSize()/2), b.getPositionY()+(b.getSize()/2),
+						Nano nano = new Nano(b.getLifePoint()/2, b.getPositionX()+(b.getSize()/2), b.getPositionY()+(b.getSize()/2),
 								GameData.lineSelect.get(0), GameData.lineSelect.get(1), GameData.lineSelect.get(2), GameData.lineSelect.get(3),
-								1, 20, 1, b);
+								1, 20, 1, b, GameData.bDepart);
 						b.setNanoArray(nano);
+						nano.getBaseDepart().minusLifeBase(b.getLifePoint()/2);
 				    	for(int i = 0; i<5; i++){
 				    		GameData.lineSelect.set(i, 0);
+				    		GameData.bDepart = null;
 				    	}
 					}
 			    	//b.displayNanoArray();
@@ -69,13 +73,15 @@ public class MouseMethods implements MouseListener, MouseMotionListener {
     		   (b.getType() == 2 || b.getType() == 0) && GameData.lineSelect.get(4) == 1){
 					GameData.lineSelect.set(2, b.getPositionX()+(b.getSize()/2));
 					GameData.lineSelect.set(3, b.getPositionY()+(b.getSize()/2));
-					Nano nano = new Nano(40, b.getPositionX()+(b.getSize()/2), b.getPositionY()+(b.getSize()/2),
+					Nano nano = new Nano(GameData.bDepart.getLifePoint()/2, b.getPositionX()+(b.getSize()/2), b.getPositionY()+(b.getSize()/2),
 							GameData.lineSelect.get(0), GameData.lineSelect.get(1), GameData.lineSelect.get(2), GameData.lineSelect.get(3),
-							1, 20, 1, b);
+							1, 20, 1,  b, GameData.bDepart);
 					b.setNanoArray(nano);
+					nano.getBaseDepart().minusLifeBase(GameData.bDepart.getLifePoint()/2);
 					for(int i = 0; i<5; i++){
 			    		GameData.lineSelect.set(i, 0);
 			    	}
+					GameData.bDepart = null;
 			 }
     	} 
 	}

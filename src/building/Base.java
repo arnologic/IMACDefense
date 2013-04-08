@@ -81,8 +81,11 @@ public class Base extends BuildingAbstract {
 		}
     }
     public void minusLifeBase(int number){
-    	lifePoint = number;
+    	lifePoint -= number;
     }
+	public void addLifeBase(int number) {
+		lifePoint += number;
+	}
     public void paintBase(Graphics2D g){
     	Color color = Color.WHITE;
     	if(getType() == 0){

@@ -104,4 +104,8 @@ public abstract class BuildingAbstract {
 		// TODO Auto-generated method stub
 		
 	}
+	public void addLifeBase(int i) {
+		// TODO Auto-generated method stub
+		
+	}
 }

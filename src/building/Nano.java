@@ -21,6 +21,7 @@ public class Nano extends BuildingAbstract{
 	private int type; // O = neutre, 1 = joueur, 2 = méchant
 	
 	private BuildingAbstract baseFinal;
+	private BuildingAbstract baseDepart;
 	
 	private Circle upCircle;
 	private Line2D.Float linePath = new Line2D.Float();
@@ -31,7 +32,7 @@ public class Nano extends BuildingAbstract{
 	
 	private static int number = 0;
 	
-	public Nano(int l, int x, int y, int x1, int y1, int x2, int y2, int iD, int s, int t, BuildingAbstract b){
+	public Nano(int l, int x, int y, int x1, int y1, int x2, int y2, int iD, int s, int t, BuildingAbstract bf, BuildingAbstract bd){
 		lifePoint = l;
 		positionX = x;
 		positionY = y;
@@ -42,7 +43,8 @@ public class Nano extends BuildingAbstract{
 		size = s;
 		type = t;
 		ID = iD;
-		baseFinal = b;
+		baseFinal = bf;
+		baseDepart = bd;
 		linePath.setLine(positionX1Line, positionY1Line, positionX2Line, positionY2Line);
 	}
 	
@@ -156,6 +158,14 @@ public class Nano extends BuildingAbstract{
 	}
 	public static void setNumber(int number) {
 		Nano.number = number;
+	}
+
+	public BuildingAbstract getBaseDepart() {
+		return baseDepart;
+	}
+
+	public void setBaseDepart(BuildingAbstract baseDepart) {
+		this.baseDepart = baseDepart;
 	}
 
 }

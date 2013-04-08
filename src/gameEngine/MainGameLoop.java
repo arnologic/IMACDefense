@@ -122,6 +122,7 @@ public class MainGameLoop extends Thread{
     		updateMove();
     		if(frameCount == 0){
     			updateLifeNano();
+    			updateLifeBase();
     		}
     		// Update Graphics
     		do {
@@ -156,6 +157,13 @@ public class MainGameLoop extends Thread{
     public void updateLifeNano(){
     	for(BuildingAbstract b : GameData.baseArray){
     		b.minusLifeNano(1);
+    	}
+    }
+    public void updateLifeBase(){
+    	for(BuildingAbstract b : GameData.baseArray){
+    		if(b.getType() != 0){
+    			b.addLifeBase(1);
+    		}
     	}
     }
     /*

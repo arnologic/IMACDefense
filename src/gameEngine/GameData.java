@@ -18,4 +18,7 @@ public class GameData {
 	/*
 	 * [flag de dessin, x1 (point départ), y1 (point départ), x2 (point arrivé), y2 (point arrivé)]
 	 */
+	
+	// Temp
+	public static BuildingAbstract bDepart;
 }
