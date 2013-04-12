@@ -1,5 +1,7 @@
 package building;
 
+import gameEngine.GameData;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
@@ -82,9 +84,19 @@ public class Base extends BuildingAbstract {
     }
     public void minusLifeBase(int number){
     	lifePoint -= number;
+    	size -= number;
     }
 	public void addLifeBase(int number) {
 		lifePoint += number;
+		size += number;
+	}
+	public BuildingAbstract getBase(int number) {
+    	for(BuildingAbstract b : GameData.baseArray){
+    		if(b.getType() == number){
+    			return b;
+    		}
+    	}
+    	return null;
 	}
     public void paintBase(Graphics2D g){
     	Color color = Color.WHITE;

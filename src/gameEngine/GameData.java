@@ -1,5 +1,6 @@
 package gameEngine;
 
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import building.BuildingAbstract;
@@ -21,4 +22,6 @@ public class GameData {
 	
 	// Temp
 	public static BuildingAbstract bDepart;
+	public static Line2D lineIntersect = new Line2D.Float();
+	public static boolean flaglineIntersect = false;
 }

@@ -22,6 +22,7 @@ import interaction.MouseMethods;
 
 import building.Base;
 import building.BuildingAbstract;
+import building.Nano;
 import gameEngine.GameData;
 
 public class MainGameLoop extends Thread{
@@ -124,6 +125,7 @@ public class MainGameLoop extends Thread{
     		if(frameCount == 0){
     			if(frameLag == true){
     				updateLifeNano();
+    	    		updateActionIA();
     				frameLag = false;
     			}else{
 	    			updateLifeBase();
@@ -155,6 +157,34 @@ public class MainGameLoop extends Thread{
     }
 
     public void updateGame() {}
+    public void updateActionIA() {
+    	BuildingAbstract bDepart = null;
+    	BuildingAbstract bFinal = null;
+    	
+    	// Base ˆ choisir qui sera attaquŽ
+    	for(BuildingAbstract b : GameData.baseArray){
+    		if(b.getType() == 2){
+    			bDepart = b;
+    		}
+    	}
+    	//System.out.println(bDepart.toString());
+    	
+    	// Base ˆ choisir qui attaque
+    	for(BuildingAbstract b : GameData.baseArray){
+    		if(b.getType() == 1){
+    			bFinal = b;
+    		}
+    	}
+    	
+    	// CrŽation du nano
+    	if(bDepart.getLifePoint() > 10){
+			Nano nano = new Nano(bDepart.getLifePoint()/2, bDepart.getPositionX()+(bDepart.getSize()/2), bDepart.getPositionY()+(bDepart.getSize()/2),
+					bDepart.getPositionX()+(bDepart.getSize()/2), bDepart.getPositionY()+(bDepart.getSize()/2), bFinal.getPositionX()+(bDepart.getSize()/2), bFinal.getPositionY()+(bDepart.getSize()/2),
+					1, 20, 2, bFinal, bDepart);
+			bDepart.setNanoArray(nano);
+			bDepart.minusLifeBase(bDepart.getLifePoint()/2);
+    	}
+    }
     public void updateMove(){
     	for(BuildingAbstract b : GameData.baseArray){
     		b.iterateNano();
@@ -202,7 +232,7 @@ public class MainGameLoop extends Thread{
     	}*/
     	GameData.baseArray.add(new Base(50, 50, 90, 0, 1));
     	GameData.baseArray.add(new Base(900, 600, 90, 0, 2));
-    	for(int i = 0; i<3; i++){	
+    	for(int i = 0; i<1; i++){	
 	    		GameData.baseArray.add(new Base(random, 30, 0, 0));
     	}
     }
@@ -216,7 +246,11 @@ public class MainGameLoop extends Thread{
     }
     public void drawSelectLine(){ 
     	if(GameData.lineSelect.get(4) == 1){
-	    	backgroundGame.setColor(Color.WHITE);
+    		if(GameData.flaglineIntersect == true){
+    			backgroundGame.setColor(Color.RED);
+    		}else{
+    			backgroundGame.setColor(Color.WHITE);
+    		}
 	    	backgroundGame.drawLine(GameData.lineSelect.get(2), GameData.lineSelect.get(3), GameData.lineSelect.get(0), GameData.lineSelect.get(1));
     	}
     }

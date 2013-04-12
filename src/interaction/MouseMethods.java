@@ -1,8 +1,12 @@
 package interaction;
 
+
 import java.awt.event.MouseEvent;
+import math.Intersections;
+
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Line2D;
 
 import building.BuildingAbstract;
 import building.Nano;
@@ -18,6 +22,20 @@ public class MouseMethods implements MouseListener, MouseMotionListener {
 		if(GameData.lineSelect.get(4) == 1){
 			GameData.lineSelect.set(2, e.getPoint().x);
 			GameData.lineSelect.set(3, e.getPoint().y);
+			GameData.lineIntersect.setLine(GameData.lineSelect.get(0), GameData.lineSelect.get(1), GameData.lineSelect.get(2), GameData.lineSelect.get(3));
+
+			for(BuildingAbstract b : GameData.baseArray){
+				if(b.getType() == 0){
+	    			//System.out.println(b.toString());
+					Line2D[] rectangleGenerated = Intersections.GenerateRectangle(b);
+					if(Intersections.IntersectLineRectangle(GameData.lineIntersect, rectangleGenerated)){
+						GameData.flaglineIntersect = true;
+		    			System.out.println("INTERDIT");
+		    		}else{
+		    			GameData.flaglineIntersect = false;
+		    		}
+				}
+	    	}
 		}
 		//System.out.println(GameData.lineSelect.toString());
 	}
