@@ -11,13 +11,21 @@ public class GameData {
 	/*
 	 * [base, base, base ...]
 	 * Taille : Nombre de base joueur dans le plateau de jeu
-	 * O = neutre, 1 = joueur, 2 = mchant
+	 * O = neutre, 1 = joueur, 2 = mï¿½chant
+	 */
+	
+	// Tower
+	public static ArrayList<BuildingAbstract> towerArray = new ArrayList<BuildingAbstract>();
+	/*
+	 * [tour, tour, tour ...]
+	 * Taille : Nombre de tour dans le plateau de jeu
+	 * O = neutre, 1 = joueur, 2 = mï¿½chant
 	 */
 	
 	// Graphic
 	public static ArrayList<Integer> lineSelect = new ArrayList<Integer>();	
 	/*
-	 * [flag de dessin, x1 (point dpart), y1 (point dpart), x2 (point arriv), y2 (point arriv)]
+	 * [flag de dessin, x1 (point dï¿½part), y1 (point dï¿½part), x2 (point arrivï¿½), y2 (point arrivï¿½)]
 	 */
 	
 	// Temp

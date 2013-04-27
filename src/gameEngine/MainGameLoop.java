@@ -21,6 +21,11 @@ import simpleShape.Rectangle;
 import interaction.MouseMethods;
 
 import building.Base;
+import building.TowerGun;
+import building.TowerFreeze;
+import building.TowerLaser;
+import building.TowerMedical;
+import building.TowerBomb;
 import building.BuildingAbstract;
 import building.Nano;
 import gameEngine.GameData;
@@ -55,7 +60,7 @@ public class MainGameLoop extends Thread{
     	
     	// Canvas
     	/*
-    	 * On attache un canvas ˆ la fentre frame
+    	 * On attache un canvas ï¿½ la fenï¿½tre frame
     	 */
     	canvas = new Canvas(config);
     	canvas.setSize(width, height);
@@ -74,7 +79,7 @@ public class MainGameLoop extends Thread{
     	start(); // lance le thread run()
     }
 
-    // Gre la fermeture de la fentre avec un thread, non paramŽtrŽ par dŽfaut dans swing
+    // Gï¿½re la fermeture de la fenï¿½tre avec un thread, non paramï¿½trï¿½ par dï¿½faut dans swing
     private class FrameClose extends WindowAdapter {
     	@Override
     	public void windowClosing(final WindowEvent e) {
@@ -94,14 +99,14 @@ public class MainGameLoop extends Thread{
     	return backgroundGame;
     }
 
-    // Pour chaque rafra”chissement d'Žcran
+    // Pour chaque rafraï¿½chissement d'ï¿½cran
     private boolean updateScreen() {
     	backgroundGame.dispose();
     	backgroundGame = null;  
     	
     	try {
     		strategy.show();
-    		Toolkit.getDefaultToolkit().sync(); // Resynchronise les fentres
+    		Toolkit.getDefaultToolkit().sync(); // Resynchronise les fenï¿½tres
     		return (!strategy.contentsLost());
 
     	} catch (NullPointerException e) {
@@ -120,7 +125,7 @@ public class MainGameLoop extends Thread{
     	long fpsWait = (long) (1.0 / 30 * 1000);
     	main: while (isRunning) {
     		long renderStart = System.nanoTime();
-    		updateGame(); // Mise ˆ jour des donnŽes logiques
+    		updateGame(); // Mise ï¿½ jour des donnï¿½es logiques
     		updateMove();
     		if(frameCount == 0){
     			if(frameLag == true){
@@ -138,7 +143,7 @@ public class MainGameLoop extends Thread{
     			if (!isRunning) {
     				break main;
     			}
-    			renderGame(bg); // On dessine les ŽlŽments dans le canvas
+    			renderGame(bg); // On dessine les ï¿½lï¿½ments dans le canvas
     		} while (!updateScreen());
 
     		// Limitation FPS - Environ 33 FPS pour un macbookpro
@@ -161,7 +166,7 @@ public class MainGameLoop extends Thread{
     	BuildingAbstract bDepart = null;
     	BuildingAbstract bFinal = null;
     	
-    	// Base ˆ choisir qui sera attaquŽ
+    	// Base ï¿½ choisir qui sera attaquï¿½
     	for(BuildingAbstract b : GameData.baseArray){
     		if(b.getType() == 2){
     			bDepart = b;
@@ -169,14 +174,14 @@ public class MainGameLoop extends Thread{
     	}
     	//System.out.println(bDepart.toString());
     	
-    	// Base ˆ choisir qui attaque
+    	// Base ï¿½ choisir qui attaque
     	for(BuildingAbstract b : GameData.baseArray){
     		if(b.getType() == 1){
     			bFinal = b;
     		}
     	}
     	
-    	// CrŽation du nano
+    	// Crï¿½ation du nano
     	if(bDepart.getLifePoint() > 10){
 			Nano nano = new Nano(bDepart.getLifePoint()/2, bDepart.getPositionX()+(bDepart.getSize()/2), bDepart.getPositionY()+(bDepart.getSize()/2),
 					bDepart.getPositionX()+(bDepart.getSize()/2), bDepart.getPositionY()+(bDepart.getSize()/2), bFinal.getPositionX()+(bDepart.getSize()/2), bFinal.getPositionY()+(bDepart.getSize()/2),
@@ -235,6 +240,16 @@ public class MainGameLoop extends Thread{
     	for(int i = 0; i<1; i++){	
 	    		GameData.baseArray.add(new Base(random, 30, 0, 0));
     	}
+    	GameData.towerArray.add(new TowerGun(100, 500, 30, 0, 1));
+    	GameData.towerArray.add(new TowerFreeze(150, 550, 30, 1, 1));
+    	GameData.towerArray.add(new TowerLaser(200, 600, 30, 2, 1));
+    	GameData.towerArray.add(new TowerMedical(400, 50, 30, 3, 1));
+    	GameData.towerArray.add(new TowerBomb(500, 100, 30, 4, 1));
+    	GameData.towerArray.add(new TowerGun(900, 450, 30, 0, 2));
+    	GameData.towerArray.add(new TowerFreeze(850, 400, 30, 1, 2));
+    	GameData.towerArray.add(new TowerLaser(800, 350, 30, 2, 2));
+    	GameData.towerArray.add(new TowerMedical(600, 600, 30, 3, 2));
+    	GameData.towerArray.add(new TowerBomb(700, 650, 30, 4, 2));
     }
     
     /*
@@ -259,6 +274,10 @@ public class MainGameLoop extends Thread{
     		b.paintBase(backgroundGame);
     		b.paintNano(backgroundGame);
     	}
+    	for(BuildingAbstract t : GameData.towerArray){
+    		t.paintTower(backgroundGame);
+    	}
+    	
     }
 
     /*

@@ -15,6 +15,7 @@ public abstract class BuildingAbstract {
 	private int ID;
 	
 	public void paintBase(Graphics2D g){}
+	public void paintTower(Graphics2D g){}
 	public void setSize(int size) {
 		this.size = size;
 	}
@@ -89,6 +90,10 @@ public abstract class BuildingAbstract {
 		
 	}
 	public void paintBase(Graphics2D backgroundGame, JFrame frame) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void paintTower(Graphics2D backgroundGame, JFrame frame) {
 		// TODO Auto-generated method stub
 		
 	}
